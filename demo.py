@@ -79,11 +79,11 @@ class FlowDemo:
         return f"{elapsed.total_seconds():06.2f}s"
         
     def wait_for_user(self, message: str = "Press Enter to continue..."):
-        """Wait for user input with styled prompt"""
-        print(f"\n{Colors.WARNING}{message}{Colors.ENDC}")
-        input()
+        """Wait for user input with styled prompt - disabled for fast demo"""
+        # Skip user interaction for 45-second demo
+        pass
         
-    def simulate_coroutine_execution(self, name: str, steps: int, delay: float = 0.3):
+    def simulate_coroutine_execution(self, name: str, steps: int, delay: float = 0.1):
         """Simulate coroutine execution with visual feedback"""
         self.print_step(f"Starting coroutine: {Colors.BOLD}{name}{Colors.ENDC}")
         
@@ -104,10 +104,10 @@ class FlowDemo:
         
         # Simulate kernel creation
         self.print_step("Creating kernel with Create.Kernel()")
-        time.sleep(0.5)
+        time.sleep(0.1)
         
         self.print_step("Setting up factory for object creation")
-        time.sleep(0.3)
+        time.sleep(0.1)
         
         self.print_step("Kernel initialized - ready for coroutine execution")
         print()
@@ -119,7 +119,7 @@ class FlowDemo:
         
         for frame in range(1, 6):
             self.print_step(f"Frame {frame}: kernel.Step() - Processing active generators")
-            time.sleep(0.4)
+            time.sleep(0.1)
             
         self.print_success("Kernel stepping demonstration complete")
         
@@ -149,7 +149,7 @@ class FlowDemo:
             time.sleep(0.1)  # Stagger start times
             
         # Wait for demonstration to complete
-        time.sleep(2.5)
+        time.sleep(0.1)
         print()
         self.print_success("All coroutines completed execution")
         
@@ -244,21 +244,21 @@ class FlowDemo:
         
         # Simulate future creation and resolution
         self.print_step("Creating Future<UserData> for web request")
-        time.sleep(0.3)
+        time.sleep(0.1)
         
         self.print_step("Coroutine suspended - waiting for future value")
-        time.sleep(0.5)
+        time.sleep(0.1)
         
         self.print_step("HTTP request sent to api.example.com/user/123")
         
         # Simulate network delay
         for i in range(3):
-            time.sleep(0.8)
+            time.sleep(0.1)
             self.print_step(f"  ... network request in progress ({i+1}s)")
             
         self.print_step("HTTP response received!")
         self.print_step("Future.SetValue(userData) called")
-        time.sleep(0.3)
+        time.sleep(0.1)
         
         self.print_success("✓ Suspended coroutine resumed with user data")
         self.print_step("  User: 'Christian' (ID: 123, Level: 45)")
@@ -331,7 +331,7 @@ class FlowDemo:
             # Show progress during step
             progress_steps = int(duration * 4)  # 4 updates per second
             for p in range(progress_steps):
-                time.sleep(0.25)
+                time.sleep(0.1)
                 progress = (p + 1) / progress_steps * 100
                 self.print_step(f"  └ {step_name}: {progress:.0f}% complete")
                 
@@ -360,25 +360,25 @@ class FlowDemo:
         self.print_step("Phase 1: Player Initialization Barrier")
         init_tasks = ["Load Player State", "Sync Animations", "Update UI"]
         for task in init_tasks:
-            time.sleep(0.3)
+            time.sleep(0.1)
             self.print_step(f"  ✓ {task}")
         self.print_success("All players initialized")
         print()
         
         # Phase 2: Action Selection with Timeout
         self.print_step("Phase 2: Action Selection (Trigger with timeout)")
-        time.sleep(0.8)
+        time.sleep(0.1)
         self.print_step("  Player 1: Selected 'Attack' (2.1s)")
-        time.sleep(0.5)
+        time.sleep(0.1)
         self.print_step("  Player 2: Auto-selected 'Defend' (timeout at 5s)")
         self.print_success("Action selection phase complete")
         print()
         
         # Phase 3: Async Damage Calculation
         self.print_step("Phase 3: Damage Calculation (Future)")
-        time.sleep(0.6)
+        time.sleep(0.1)
         self.print_step("  Server processing battle mechanics...")
-        time.sleep(0.4)
+        time.sleep(0.1)
         self.print_step("  Future<BattleResult> resolved")
         self.print_step("  └ Damage: 25 HP, Critical Hit: Yes")
         self.print_success("Damage calculation complete")
@@ -388,7 +388,7 @@ class FlowDemo:
         self.print_step("Phase 4: Animation Sequence")
         animations = ["Wind-up", "Strike", "Impact", "Recovery"]
         for i, anim in enumerate(animations, 1):
-            time.sleep(0.4)
+            time.sleep(0.1)
             self.print_step(f"  {i}/4: {anim} animation")
         self.print_success("Animation sequence complete")
         print()
@@ -397,7 +397,7 @@ class FlowDemo:
         self.print_step("Phase 5: Turn Cleanup Barrier")
         cleanup_tasks = ["Update Health Bars", "Save Game State", "Prepare Next Turn"]
         for task in cleanup_tasks:
-            time.sleep(0.2)
+            time.sleep(0.1)
             self.print_step(f"  ✓ {task}")
         self.print_success("Turn cleanup complete")
         
@@ -417,16 +417,16 @@ class FlowDemo:
         
         # Simulate network error and recovery
         self.print_step("Attempting to fetch player statistics...")
-        time.sleep(0.8)
+        time.sleep(0.1)
         
         self.print_error("Network timeout - primary server unreachable")
-        time.sleep(0.3)
+        time.sleep(0.1)
         
         self.print_step("Error handler triggered - trying fallback server...")
-        time.sleep(1.0)
+        time.sleep(0.1)
         
         self.print_warning("Fallback server slow - using cached data")
-        time.sleep(0.5)
+        time.sleep(0.1)
         
         self.print_success("✓ Graceful fallback completed")
         self.print_step("  └ Using cached stats (5 minutes old)")
@@ -436,11 +436,11 @@ class FlowDemo:
         
         for attempt in range(1, 4):
             self.print_step(f"Connection attempt #{attempt}")
-            time.sleep(0.6)
+            time.sleep(0.1)
             
             if attempt < 3:
                 self.print_error(f"Attempt {attempt} failed - retrying in 2s...")
-                time.sleep(0.4)
+                time.sleep(0.1)
             else:
                 self.print_success("✓ Connection successful!")
                 self.print_step("  └ Retry policy succeeded on attempt 3")
@@ -504,7 +504,7 @@ class FlowDemo:
         print(f"of the Flow coroutine system in action.")
         print()
         print(f"Demo started at: {Colors.BOLD}{self.start_time.strftime('%H:%M:%S')}{Colors.ENDC}")
-        print(f"Estimated duration: {Colors.BOLD}5-8 minutes{Colors.ENDC}")
+        print(f"Estimated duration: {Colors.BOLD}45 seconds{Colors.ENDC}")
         print()
         
         self.check_prerequisites()
