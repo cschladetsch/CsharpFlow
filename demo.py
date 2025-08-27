@@ -451,14 +451,21 @@ class FlowDemo:
         test_dll = self.bin_dir / "TestFlow.dll"
         
         if not flow_dll.exists():
-            self.print_error("Flow.dll not found in Bin/Release/")
-            self.print_warning("Please build the project first:")
-            print("  python3 build.py --release")
-            return False
+            self.print_warning("Flow.dll not found in Bin/Release/")
+            self.print_warning("Running in SIMULATION MODE - demonstrating concepts without compiled binaries")
+            print()
+            print("To build the actual project, install .NET tools first:")
+            print("  sudo apt install dotnet-sdk-6.0    # For .NET SDK")
+            print("  sudo apt install mono-devel        # For Mono")
+            print("  python3 build.py --no-cmake --release")
+            print()
+            self.print_step("Continuing with conceptual demonstration...")
+            return True
             
         if not test_dll.exists():
             self.print_warning("TestFlow.dll not found - some demos may be limited")
             
+        self.print_success("✓ Flow.dll found - running with actual compiled library")
         return True
         
     def show_architecture_overview(self):
@@ -498,9 +505,9 @@ class FlowDemo:
         print()
         print(f"Demo started at: {Colors.BOLD}{self.start_time.strftime('%H:%M:%S')}{Colors.ENDC}")
         print(f"Estimated duration: {Colors.BOLD}5-8 minutes{Colors.ENDC}")
+        print()
         
-        if not self.check_prerequisites():
-            return 1
+        self.check_prerequisites()
             
         self.wait_for_user("Ready to begin? Press Enter to start the demo...")
         
