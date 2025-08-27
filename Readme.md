@@ -97,6 +97,7 @@ New.Coroutine(EndGame).Named("EndGame")
 }
 ```
 ### Complex Barrier Synchronization
+
 ```csharp
 private IEnumerator StartGame(IGenerator self)
 {
