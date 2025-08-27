@@ -49,6 +49,7 @@
     <Compile Include="Editor\TestSequenceTopology.cs" />
     <Compile Include="Editor\TestTimers.cs" />
     <Compile Include="Editor\TestTrigger.cs" />
+    <Compile Include="Editor\TestNewSystemsIntegration.cs" />
     <Compile Include="Editor\TimerTimedWait.cs" />
   </ItemGroup>
   <ItemGroup>
