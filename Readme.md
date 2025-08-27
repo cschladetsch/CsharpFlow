@@ -69,31 +69,31 @@ Run tests using your preferred NUnit test runner. These tests serve as both vali
 ```csharp
 private void CreateHeartbeat()
 {
-New.PeriodicTimer(TimeSpan.FromMinutes(2)).Elapsed += tr =>
-{
-Get<UserCount>("user/alive").Then(result =>
-{
-if (result.Succeeded(out var val))
-{
-_activeUsers.Value = val.Num;
-Info($"{val.Num} users online.");
-}
-});
-};
+    New.PeriodicTimer(TimeSpan.FromMinutes(2)).Elapsed += tr =>
+    {
+        Get<UserCount>("user/alive").Then(result =>
+        {
+            if (result.Succeeded(out var val))
+            {
+                _activeUsers.Value = val.Num;
+                Info($"{val.Num} users online.");
+            }
+        });
+    };
 }
 ```
 ### Game Loop with Sequences and Barriers
 ```csharp
 public void GameLoop()
 {
-Root.Add(
-New.Sequence(
-New.Coroutine(StartGame).Named("StartGame"),
-New.While(() => !_gameOver,
-New.Coroutine(PlayerTurn).Named("Turn")),
-New.Coroutine(EndGame).Named("EndGame")
-).Named("GameLoop")
-);
+    Root.Add(
+        New.Sequence(
+            New.Coroutine(StartGame).Named("StartGame"),
+            New.While(() => !_gameOver,
+                New.Coroutine(PlayerTurn).Named("Turn")),
+            New.Coroutine(EndGame).Named("EndGame")
+        ).Named("GameLoop")
+    );
 }
 ```
 ### Complex Barrier Synchronization
@@ -315,10 +315,12 @@ The `Verbose()` logging method evaluates all arguments even when the verbosity l
 Verbosity = 10;
 Verbose(15, $"Result: {ExpensiveFunction()}"); // ExpensiveFunction() still executes!
 ```
+
 For performance-critical code, check verbosity levels before logging:
+
 ```csharp
 if (Verbosity >= 15)
-Verbose(15, $"Result: {ExpensiveFunction()}");
+    Verbose(15, $"Result: {ExpensiveFunction()}");
 ```
 ## Requirements
 - .NET Framework 4.8 or later
