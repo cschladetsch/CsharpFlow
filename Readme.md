@@ -11,6 +11,8 @@ A comprehensive C# coroutine-based kernel library for .NET that provides coopera
 - **Event-driven architecture** - Comprehensive completion and timing event system
 - **Type-safe generics** - Strongly typed futures and generators
 - **Flexible factory pattern** - Easy creation and configuration of flow objects
+## Demo
+![Demo](resources/Demo.gif)
 ## Quick Start
 ```csharp
 // Create a kernel and basic coroutine
