@@ -101,29 +101,29 @@ New.Coroutine(EndGame).Named("EndGame")
 ```csharp
 private IEnumerator StartGame(IGenerator self)
 {
-var start = New.Sequence(
-New.Barrier(
-WhitePlayer.StartGame(),
-BlackPlayer.StartGame()
-).Named("Init Game"),
-New.Barrier(
-WhitePlayer.DrawInitialCards(),
-BlackPlayer.DrawInitialCards()
-).Named("Deal Cards"),
-New.Barrier(
-New.TimedBarrier(
-TimeSpan.FromSeconds(Parameters.MulliganTimer),
-WhitePlayer.AcceptCards(),
-BlackPlayer.AcceptCards()
-).Named("Mulligan"),
-New.Sequence(
-WhitePlayer.PlaceKing(),
-BlackPlayer.PlaceKing()
-).Named("Place Kings")
-).Named("Preceedings")
-).Named("Start Game");
-start.Completed += (tr) => Info("StartGame completed");
-yield return start;
+    var start = New.Sequence(
+        New.Barrier(
+            WhitePlayer.StartGame(),
+            BlackPlayer.StartGame()
+        ).Named("Init Game"),
+        New.Barrier(
+            WhitePlayer.DrawInitialCards(),
+            BlackPlayer.DrawInitialCards()
+        ).Named("Deal Cards"),
+        New.Barrier(
+            New.TimedBarrier(
+                TimeSpan.FromSeconds(Parameters.MulliganTimer),
+                WhitePlayer.AcceptCards(),
+                BlackPlayer.AcceptCards()
+            ).Named("Mulligan"),
+            New.Sequence(
+                WhitePlayer.PlaceKing(),
+                BlackPlayer.PlaceKing()
+            ).Named("Place Kings")
+        ).Named("Preceedings")
+    ).Named("Start Game");
+    start.Completed += (tr) => Info("StartGame completed");
+    yield return start;
 }
 ```
 ### Debugging and Tracing
