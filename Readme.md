@@ -22,7 +22,7 @@ kernel.Step(); // or kernel.Update(deltaTime)
 ```
 ## Project Structure
 The library is organized into logical folders:
-```
+```text
 CsharpFlow/
 ├── Interfaces/ # All interface definitions (26 files)
 │ ├── IKernel.cs # Core execution engine
@@ -95,7 +95,6 @@ New.Coroutine(EndGame).Named("EndGame")
 ).Named("GameLoop")
 );
 }
-```
 ### Complex Barrier Synchronization
 ```csharp
 private IEnumerator StartGame(IGenerator self)
@@ -323,3 +322,4 @@ Verbose(15, $"Result: {ExpensiveFunction()}");
 - .NET Framework 4.8 or later
 - Unity 4.0+ (for Unity integration)
 - NUnit (for running tests)
+```
