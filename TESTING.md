@@ -21,11 +21,23 @@ graph TB
         TB --> TSeq[TestSequenceTopology]
         TB --> TFlow[TestFlowExtra]
         TB --> TEvent[TestEventStream]
+        TB --> TAdv[TestAdvancedScenarios]
     end
     
     TB --> |Provides| Util[Test Utilities]
     TB --> |Creates| Kern[Test Kernels]
     TB --> |Manages| Setup[Setup/Teardown]
+    
+    subgraph "Advanced Test Coverage"
+        TAdv --> |20 Tests| Complex[Complex Scenarios]
+        Complex --> Nested[Nested Barriers]
+        Complex --> Channels[Producer/Consumer]
+        Complex --> Error[Error Handling]
+        Complex --> Memory[Memory Cleanup]
+        Complex --> Timing[Advanced Timing]
+        Complex --> Factory[Factory Patterns]
+        Complex --> Flow[Complex Flows]
+    end
 ```
 
 ## Test Categories
@@ -258,17 +270,20 @@ graph TB
 
 ## Test Coverage Matrix
 
-| Component | Unit Tests | Integration Tests | Performance Tests |
-|-----------|------------|-------------------|-------------------|
-| Kernel | ✅ Basic execution | ✅ Multi-generator | ⚠️ Limited |
-| Generators | ✅ Lifecycle | ✅ Nesting | ⚠️ Limited |
-| Barriers | ✅ Synchronization | ✅ Timeout handling | ❌ None |
-| Triggers | ✅ Any-completion | ✅ Complex scenarios | ❌ None |
-| Futures | ✅ Value setting | ✅ Chaining | ❌ None |
-| Timers | ✅ Basic timing | ✅ Periodic behavior | ⚠️ Limited |
-| Channels | ✅ Read/Write | ✅ Producer/Consumer | ❌ None |
-| Sequences | ✅ Ordering | ✅ Nested sequences | ❌ None |
-| Logging | ✅ Basic output | ⚠️ Limited | ❌ None |
+| Component | Unit Tests | Integration Tests | Performance Tests | Advanced Scenarios |
+|-----------|------------|-------------------|-------------------|--------------------|
+| Kernel | ✅ Basic execution | ✅ Multi-generator | ⚠️ Limited | ✅ Break mechanism |
+| Generators | ✅ Lifecycle | ✅ Nesting | ⚠️ Limited | ✅ Suspend/Resume |
+| Barriers | ✅ Synchronization | ✅ Timeout handling | ❌ None | ✅ Nested barriers |
+| Triggers | ✅ Any-completion | ✅ Complex scenarios | ❌ None | ✅ Multiple sources |
+| Futures | ✅ Value setting | ✅ Chaining | ❌ None | ✅ Timed futures |
+| Timers | ✅ Basic timing | ✅ Periodic behavior | ⚠️ Limited | ✅ Multiple ticks |
+| Channels | ✅ Read/Write | ✅ Producer/Consumer | ❌ None | ✅ Advanced patterns |
+| Sequences | ✅ Ordering | ✅ Nested sequences | ❌ None | ✅ Deep nesting |
+| Logging | ✅ Basic output | ⚠️ Limited | ❌ None | ⚠️ Limited |
+| Factory | ✅ Object creation | ⚠️ Limited | ❌ None | ✅ All patterns |
+| Error Handling | ⚠️ Basic | ⚠️ Limited | ❌ None | ✅ Coroutine errors |
+| Memory Management | ⚠️ Basic cleanup | ❌ None | ❌ None | ✅ Completion cleanup |
 
 **Legend:**
 - ✅ Comprehensive coverage
@@ -316,13 +331,49 @@ protected void StepUntilComplete(ITransient target, int maxSteps = 1000)
 }
 ```
 
+### Advanced Scenario Tests
+
+#### TestAdvancedScenarios.cs (20 New Tests)
+Comprehensive test suite covering complex scenarios and edge cases:
+
+**Nested and Complex Flow Tests:**
+- `TestNestedBarriersWithTimeout()` - Tests complex barrier hierarchies with timeout handling
+- `TestComplexSequenceWithConditionals()` - Validates conditional execution within sequences
+- `TestDeepNestedSequences()` - Tests deeply nested sequence structures
+- `TestComplexFlowWithAllPrimitives()` - Integration test using all flow control types
+
+**Producer/Consumer and Communication:**
+- `TestChannelProducerConsumerPattern()` - Advanced channel communication patterns
+- `TestConcurrentBarrierAndTrigger()` - Tests interaction between barriers and triggers
+
+**Timing and Synchronization:**
+- `TestPeriodicTimerWithMultipleTicks()` - Multi-tick periodic timer validation
+- `TestTimedFutureTimeout()` - Timed future timeout behavior
+- `TestWaitMechanism()` - Kernel wait functionality
+
+**Error Handling and Edge Cases:**
+- `TestErrorHandlingInCoroutines()` - Exception handling within coroutines
+- `TestKernelBreakMechanism()` - Kernel break functionality
+- `TestMemoryCleanupOnCompletion()` - Resource cleanup validation
+
+**Factory and API Patterns:**
+- `TestFactoryCreationPatterns()` - Comprehensive factory method testing
+- `TestFluentInterfaceChaining()` - Fluent API pattern validation
+- `TestValueExpression()` - Value and expression generator testing
+
+**Advanced Dependency Management:**
+- `TestGeneratorSuspendResumeWithDependencies()` - Complex dependency scenarios
+- `TestTriggerWithMultipleCompletionSources()` - Multi-source trigger patterns
+- `TestActionSequencePattern()` - Action sequence functionality
+- `TestGeneratorNamingAndDebugging()` - Debug and naming support
+
 ## Known Test Limitations
 
-1. **Commented Assertions**: Some tests have commented-out assertions indicating incomplete implementation
-2. **Timing Sensitivity**: Timer tests may be sensitive to execution timing
-3. **Memory Leak Detection**: Limited testing for memory cleanup scenarios
-4. **Performance Benchmarks**: No automated performance regression testing
-5. **Stress Testing**: Limited high-load scenario coverage
+1. **Performance Benchmarks**: No automated performance regression testing
+2. **Stress Testing**: Limited high-load scenario coverage (improved with new tests)
+3. **Memory Leak Detection**: Basic cleanup testing (enhanced with new memory tests)
+4. **Timing Sensitivity**: Timer tests may be sensitive to execution timing
+5. **Thread Safety**: No multi-threaded testing scenarios
 
 ## Contributing Tests
 

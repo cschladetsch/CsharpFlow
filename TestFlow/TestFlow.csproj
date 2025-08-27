@@ -35,15 +35,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Editor\GetParamName.cs" />
+    <Compile Include="Editor\TestAdvancedScenarios.cs" />
+    <Compile Include="Editor\TestBarrier.cs" />
     <Compile Include="Editor\TestBase.cs" />
     <Compile Include="Editor\TestChannel.cs" />
     <Compile Include="Editor\TestConditionals.cs" />
     <Compile Include="Editor\TestEventStream.cs" />
+    <Compile Include="Editor\TestFlowExtra.cs" />
+    <Compile Include="Editor\TestKernel.cs" />
     <Compile Include="Editor\TestLog.cs" />
     <Compile Include="Editor\TestLoops.cs" />
     <Compile Include="Editor\TestResumeAfter.cs" />
     <Compile Include="Editor\TestSequenceTopology.cs" />
     <Compile Include="Editor\TestTimers.cs" />
+    <Compile Include="Editor\TestTrigger.cs" />
     <Compile Include="Editor\TimerTimedWait.cs" />
   </ItemGroup>
   <ItemGroup>
