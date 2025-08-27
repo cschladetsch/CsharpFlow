@@ -28,19 +28,45 @@ kernel.Root.Add(coro);
 kernel.Step(); // or kernel.Update(deltaTime)
 ```
 
+## Project Structure
+
+The library is organized into logical folders:
+
+```
+CsharpFlow/
+├── Interfaces/           # All interface definitions (26 files)
+│   ├── IKernel.cs       # Core execution engine
+│   ├── IGenerator.cs    # Base execution units  
+│   ├── ITransient.cs    # Lifetime management
+│   ├── IFactory.cs      # Object creation
+│   └── Flow control interfaces (IBarrier, ITrigger, IFuture, etc.)
+├── Impl/                # Implementation classes (25 files)  
+│   ├── Kernel.cs        # Execution engine implementation
+│   ├── Generator.cs     # Base generator logic
+│   ├── Factory.cs       # Object factory
+│   └── Flow control implementations
+├── Logger/              # Logging subsystem
+├── TestFlow/            # Comprehensive test suite
+└── Properties/          # Assembly metadata
+```
+
 ## Core Components
 
-### Kernel
-The central execution engine that manages time and steps all active generators.
+### Kernel (`Interfaces/IKernel.cs`, `Impl/Kernel.cs`)
+The central execution engine that manages time and steps all active generators. Supports both delta-time and fixed-step execution.
 
-### Generators
-Base execution units including coroutines, subroutines, and sequences.
+### Generators (`Interfaces/IGenerator.cs`, `Impl/Generator.cs`)
+Base execution units including coroutines, subroutines, and sequences. Support suspension, resumption, and event-driven completion.
 
-### Flow Control
-- **Barriers** - Wait for multiple operations to complete
-- **Triggers** - Execute when any of multiple conditions are met
-- **Futures** - Represent values that will be available in the future
-- **Timers** - Time-based execution control
+### Factory (`Interfaces/IFactory.cs`, `Impl/Factory.cs`)  
+Comprehensive object creation system with 40+ factory methods for all flow control types.
+
+### Flow Control Primitives
+- **Barriers** (`Interfaces/IBarrier.cs`) - Wait for multiple operations to complete
+- **Triggers** (`Interfaces/ITrigger.cs`) - Execute when any of multiple conditions are met
+- **Futures** (`Interfaces/IFuture.cs`) - Represent values that will be available in the future
+- **Timers** (`Interfaces/ITimer.cs`) - Schedule time-based execution
+- **Sequences** (`Interfaces/ISequence.cs`) - Execute operations in order
 
 ## Documentation
 
@@ -272,6 +298,73 @@ graph TD
 ```
 
 This architecture eliminates the need to manually track state across update calls in game loops or async workflows.
+
+### Advanced Flow Patterns
+
+```mermaid
+graph TD
+    subgraph "Complex Game Loop"
+        GL[Game Loop] --> INIT[Initialize]
+        INIT --> MENU[Main Menu]
+        MENU --> |Start Game| GAME[Game Session]
+        GAME --> TURN[Player Turn]
+        TURN --> AI[AI Turn]  
+        AI --> CHECK{Game Over?}
+        CHECK --> |No| TURN
+        CHECK --> |Yes| SCORE[Show Score]
+        SCORE --> MENU
+    end
+    
+    subgraph "Async Resource Loading"
+        LOAD[Load Resources] --> PAR[Parallel Loading]
+        PAR --> TEX[Load Textures]
+        PAR --> AUD[Load Audio]
+        PAR --> DAT[Load Data]
+        TEX --> BARRIER[Wait All]
+        AUD --> BARRIER
+        DAT --> BARRIER
+        BARRIER --> START[Start Game]
+    end
+```
+
+### Channel Communication
+
+```mermaid
+sequenceDiagram
+    participant P as Producer
+    participant C as Channel<T>
+    participant C1 as Consumer 1
+    participant C2 as Consumer 2
+    
+    P->>C: Write(value1)
+    P->>C: Write(value2)
+    
+    C1->>C: Read()
+    C->>C1: Return value1
+    
+    C2->>C: Read() 
+    C->>C2: Return value2
+    
+    Note over C: Channel manages buffering and synchronization
+```
+
+### Error Handling Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> Running: Start
+    Running --> Error: Exception Thrown
+    Running --> Completed: Normal Completion
+    Error --> Retry: Retry Policy
+    Retry --> Running: Attempt Again
+    Retry --> Failed: Max Retries
+    Completed --> [*]
+    Failed --> [*]
+    
+    Error --> Fallback: Fallback Strategy
+    Fallback --> Completed: Fallback Success
+    Fallback --> Failed: Fallback Failed
+```
 
 ## Installation
 

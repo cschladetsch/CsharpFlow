@@ -4,6 +4,28 @@
 
 CsharpFlow is a C# coroutine-based kernel library for .NET that provides cooperative multitasking capabilities. The library is designed to be Unity-friendly and offers a comprehensive suite of flow control primitives including coroutines, futures, barriers, triggers, and timers.
 
+## Project Structure
+
+The codebase is now well-organized into logical folders:
+
+```
+CsharpFlow/
+├── Interfaces/           # All interface definitions and enums (26 files)
+│   ├── IKernel.cs       # Core kernel interface
+│   ├── IGenerator.cs    # Base generator interface
+│   ├── ITransient.cs    # Base transient interface
+│   ├── IFactory.cs      # Object creation interface
+│   └── ...              # Flow control interfaces
+├── Impl/                # Implementation classes (25 files)
+│   ├── Kernel.cs        # Core execution engine
+│   ├── Generator.cs     # Base generator implementation
+│   ├── Factory.cs       # Object factory
+│   └── Detail/          # Internal implementation details
+├── Logger/              # Logging subsystem (5 files)
+├── TestFlow/            # Comprehensive test suite
+└── Properties/          # Assembly metadata
+```
+
 ## Architecture Assessment
 
 ### Strengths
@@ -27,6 +49,12 @@ CsharpFlow is a C# coroutine-based kernel library for .NET that provides coopera
 - Comprehensive test suite in `TestFlow/Editor/`
 - Tests cover major components: Kernel, Barriers, Channels, Triggers, Timers
 - NUnit framework integration
+
+**5. Improved Code Organization**
+- Clean separation between interfaces (`Interfaces/`) and implementations (`Impl/`)
+- Logical grouping of related components
+- Dedicated logging subsystem (`Logger/`)
+- Clear project structure enhances maintainability
 
 ### Code Quality Issues
 
@@ -68,37 +96,66 @@ CsharpFlow is a C# coroutine-based kernel library for .NET that provides coopera
 - Assumes single-threaded execution model
 - Could be problematic in multi-threaded environments
 
-## Specific File Analysis
+## Detailed Component Analysis
 
-### Core Components
+### Interface Layer (`Interfaces/`)
+**Strengths:**
+- Clean separation of contracts from implementation
+- Consistent naming conventions (I-prefixed interfaces)
+- Comprehensive coverage of all major components
+- Good use of generics (`IGenerator<T>`, `IFuture<T>`)
 
-**IKernel.cs / Kernel.cs**
-- Clean interface definition
-- Kernel implementation follows single responsibility principle
-- Time management well-structured
+**Key Interfaces:**
+- `Interfaces/IKernel.cs` - Central execution engine contract
+- `Interfaces/IGenerator.cs` - Base execution unit interface  
+- `Interfaces/ITransient.cs` - Foundational lifetime management
+- `Interfaces/IFactory.cs` - Object creation abstraction
+- Flow control interfaces (IBarrier, ITrigger, IFuture, etc.)
 
-**Factory.cs**
-- Comprehensive factory methods for all flow types
+### Implementation Layer (`Impl/`)
+**Core Components:**
+
+**Kernel.cs** (`Impl/Kernel.cs:56-70`)
+- Clean implementation of execution engine
+- Proper time management with delta time support
+- Well-structured stepping logic with break support
+- Good separation of concerns
+
+**Factory.cs** (`Impl/Factory.cs:299-304`)
+- Comprehensive factory methods (40+ creation methods)
+- Proper object initialization via `Prepare<T>()` method
 - Good use of method overloading for convenience
-- Proper object initialization patterns
+- Fluent interface support
 
-**Generator.cs / Transient.cs**
-- Core abstractions well-designed
-- Event handling properly implemented
-- Some complexity in suspend/resume logic
+**Generator.cs** (`Impl/Generator.cs:31-38`)
+- Solid base class for all executable units
+- Event-driven lifecycle management
+- Suspend/resume functionality well-implemented
+- Memory leak prevention measures
 
-### Problematic Areas
+**Transient.cs** (`Impl/Transient.cs:36-44`)
+- Foundation class for all flow objects
+- Event-based completion handling
+- Clean completion propagation
 
-**Logger.cs** (Lines 1-11)
-```
+### Logging Subsystem (`Logger/`)
+**Critical Issues:**
+
+**Logger.cs** (`Logger/Logger.cs:1-11`)
+```csharp
 // TODO: This whole thing is a complete mess.
 // This is a classic case of trying to do too much with too little.
 ```
-This indicates a significant technical debt that needs addressing.
+- Acknowledged technical debt requiring immediate attention
+- Unity/non-Unity conditional compilation complexity
+- Mixed responsibilities in single class
 
-**Test Organization**
-- Tests located in Editor folder suggests Unity-centric development
-- Some tests have commented assertions indicating incomplete implementation
+### Test Suite (`TestFlow/`)
+**Comprehensive Coverage:**
+- Tests for all major components
+- Unity-compatible test structure  
+- Some incomplete test assertions requiring attention
+- Good coverage of edge cases and lifecycle scenarios
 
 ## Recommendations
 
@@ -150,11 +207,18 @@ This indicates a significant technical debt that needs addressing.
 
 ## Overall Assessment
 
-**Grade: B-**
+**Grade: B+**
 
-CsharpFlow demonstrates solid architectural thinking and provides a comprehensive coroutine framework. The interface design is excellent and the core functionality appears robust. However, the acknowledged technical debt in the logging system, combined with memory management concerns and documentation gaps, prevents this from being a higher grade.
+CsharpFlow demonstrates excellent architectural thinking and provides a comprehensive, well-organized coroutine framework. The recent reorganization into separate interface and implementation folders significantly improves code maintainability and follows industry best practices. The interface design is excellent and the core functionality appears robust.
 
-The library appears to be production-ready for its intended use cases, but would benefit significantly from addressing the identified technical debt, particularly the logging system that the original author acknowledges is problematic.
+The library appears to be production-ready for its intended use cases. While the logging system remains a known technical debt area, the overall code quality and organization have been substantially improved. The comprehensive test suite and clear separation of concerns make this a solid choice for coroutine-based applications.
+
+**Key Improvements Since Reorganization:**
+- Enhanced code organization with logical folder structure
+- Clear separation between contracts and implementations  
+- Improved documentation with architectural diagrams
+- Better understanding of component relationships
+- Maintained backward compatibility while improving maintainability
 
 ## Security Assessment
 
