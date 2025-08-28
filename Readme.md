@@ -13,6 +13,9 @@ A comprehensive C# coroutine-based kernel library for .NET that provides coopera
 - **Flexible factory pattern** - Easy creation and configuration of flow objects
 ## Demo
 ![Demo](resources/Demo.gif)
+## Longer Demo
+![Demo](resources/Demo2.gif)
+
 ## Quick Start
 ```csharp
 // Create a kernel and basic coroutine
